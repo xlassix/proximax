@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:proximax/screens/taskScreen.dart';
-
 void main() {
   runApp(MyApp());
 }

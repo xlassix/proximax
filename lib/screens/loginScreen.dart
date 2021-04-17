@@ -4,6 +4,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:proximax/screens/taskScreen.dart';
 import 'package:proximax/widgets/buttons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = "loginScreen";
@@ -17,10 +18,20 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   String email;
   String password;
-
+  SharedPreferences prefs;
   final _auth = FirebaseAuth.instance;
   bool _loading = false;
   String errorMessage;
+
+  void init() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   // void update(TextType textType, String value) {
   //   setState(() {
@@ -36,20 +47,20 @@ class _LoginScreenState extends State<LoginScreen> {
     String temp = value ?? "";
     temp = temp.toLowerCase().contains("network")
         ? "A network Error Occured"
-        :  temp.toLowerCase().contains("user-not-found") 
-        ? "Username not found"
-        : temp.toLowerCase().contains("wrong-password") 
-        ? "Invalid Password":
-        temp;
+        : temp.toLowerCase().contains("user-not-found")
+            ? "Username not found"
+            : temp.toLowerCase().contains("wrong-password")
+                ? "Invalid Password"
+                : temp;
     return temp.length > 0
         ? Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0),
-          child: Text(
+            padding: EdgeInsets.symmetric(vertical: 8.0),
+            child: Text(
               temp,
               style: TextStyle(color: Colors.red),
               textAlign: TextAlign.center,
             ),
-        )
+          )
         : SizedBox(
             height: 24,
           );
@@ -57,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    init();
     return Scaffold(
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
@@ -135,6 +147,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           final user = await _auth.signInWithEmailAndPassword(
                               email: email, password: password);
                           if (user != null) {
+                            await prefs.setString("userId", user.toString());
+                            print([user, user.toString()]);
                             await Navigator.pushNamed(context, TaskScreen.id);
                           }
                         } catch (e) {

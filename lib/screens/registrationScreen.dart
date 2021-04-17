@@ -4,6 +4,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:proximax/screens/taskScreen.dart';
 import 'package:proximax/widgets/buttons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String id = "registrationScreen";
@@ -18,6 +19,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String email;
   String password;
   String confirm_password;
+  SharedPreferences prefs;
 
   final _auth = FirebaseAuth.instance;
   bool _loading = false;
@@ -52,6 +54,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         : SizedBox(
             height: 24,
           );
+  }
+
+  void init() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
+  @override
+  void initState() {
+    init();
+    // TODO: implement initState
+    super.initState();
   }
 
   @override
@@ -150,6 +163,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               await _auth.createUserWithEmailAndPassword(
                                   email: email, password: password);
                           if (user != null) {
+                            await prefs.setString("userId", user.toString());
+                            print([user.user.uid, user.toString()]);
                             await Navigator.pushNamed(context, TaskScreen.id);
                           }
                         } catch (e) {

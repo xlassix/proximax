@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 class TaskScreen extends StatefulWidget {
   @override
   _TaskScreenState createState() => _TaskScreenState();
+  static const String id = "taskScreen";
 }
 
 class _TaskScreenState extends State<TaskScreen> {

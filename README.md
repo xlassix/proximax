@@ -1,6 +1,6 @@
 # proximax
 
-Proximax store your location logs for exposure and Infectious Risk Analysis
+A new Flutter project.
 
 ## Getting Started
 

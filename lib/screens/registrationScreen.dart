@@ -17,6 +17,7 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _formKey = GlobalKey<FormState>();
   String email;
+  String full_name;
   String password;
   String confirm_password;
   SharedPreferences prefs;
@@ -108,6 +109,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   validator:
                       EmailValidator(errorText: 'enter a valid email address'),
                 ),
+                TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  onChanged: (value) {
+                    setState(() {
+                      full_name = value;
+                    });
+                  },
+                  textAlign: TextAlign.center,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.person),
+                    hintText: 'Enter your full Name',
+                    labelText: 'Name *',
+                  ),
+                  validator:
+                      MinLengthValidator(6,
+                        errorText: 'full Name must be at least 6 characters long'),
+                ),
                 SizedBox(
                   height: 8.0,
                 ),
@@ -164,7 +182,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   email: email, password: password);
                           if (user != null) {
                             await prefs.setString("userId", user.toString());
-                            print([user.user.uid, user.toString()]);
+                            print([_auth.currentUser.uid]);
                             await Navigator.pushNamed(context, TaskScreen.id);
                           }
                         } catch (e) {

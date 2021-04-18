@@ -1,12 +1,35 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:proximax/services/locations.dart';
 import 'package:proximax/widgets/deviceList.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class TaskScreen extends StatefulWidget {
   @override
   _TaskScreenState createState() => _TaskScreenState();
   static const String id = "taskScreen";
+}
+
+final _auth = FirebaseAuth.instance;
+// final _firestore = FirebaseFirestore.instance;
+// String _message;
+User loggedInUser;
+
+Timer timer = new Timer(new Duration(seconds: 5), () {
+  print("Print after 5 seconds");
+});
+
+void getUser() async {
+  try {
+    final user = _auth.currentUser;
+    if (user != null) {
+      loggedInUser = user;
+      print(user.uid);
+    }
+  } catch (e) {
+    print(e);
+  }
 }
 
 class _TaskScreenState extends State<TaskScreen> {
@@ -15,12 +38,21 @@ class _TaskScreenState extends State<TaskScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    test();
+    getUser();
+    timer;
   }
 
   void test() async {
     Location locationInstance = Location();
     Position position = await locationInstance.getCurrentLocation();
     print(position);
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -84,3 +116,16 @@ class _TaskScreenState extends State<TaskScreen> {
     );
   }
 }
+
+// UserCredential(
+//   additionalUserInfo: AdditionalUserInfo(isNewUser: false,
+//    profile: {},
+//    providerId: null,
+//    username: null), credential: null,
+// user: User(displayName: null, email: koko@g.com, emailVerified: false, isAnonymous: false,
+// metadata: UserMetadata(creationTime: 2021-04-17 08:03:54.658, lastSignInTime: 2021-04-17 12:09:57.641),
+//  phoneNumber: null,
+//   photoURL:
+//    null,
+//    providerData,
+//    [UserInfo(displayName: null, email: koko@g.com, phoneNumber: null, photoURL: null, providerId: password, uid: koko@g.com)], refreshToken: , tenantId: null, uid: uSVm2l6KUgduqOfTuLTeeMZa4CI3))

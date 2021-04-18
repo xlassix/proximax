@@ -181,8 +181,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               await _auth.createUserWithEmailAndPassword(
                                   email: email, password: password);
                           if (user != null) {
-                            await prefs.setString("userId", user.toString());
-                            print([_auth.currentUser.uid]);
+                            await user.user.updateProfile(displayName: full_name); 
+                            await prefs.setString("userId", _auth.currentUser.uid);
+                            await prefs.setString("display Name", full_name);
                             await Navigator.pushNamed(context, TaskScreen.id);
                           }
                         } catch (e) {

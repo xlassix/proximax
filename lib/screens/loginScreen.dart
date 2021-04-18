@@ -147,8 +147,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           final user = await _auth.signInWithEmailAndPassword(
                               email: email, password: password);
                           if (user != null) {
-                            await prefs.setString("userId", user.toString());
-                            print([user, user.toString()]);
+                            await prefs.setString(
+                                "userId", _auth.currentUser.uid);
+                            await prefs.setString(
+                                "display Name", _auth.currentUser.displayName);
+                            print([
+                              _auth.currentUser.uid,
+                              _auth.currentUser.displayName
+                            ]);
                             await Navigator.pushNamed(context, TaskScreen.id);
                           }
                         } catch (e) {

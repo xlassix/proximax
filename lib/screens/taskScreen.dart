@@ -16,7 +16,7 @@ final _auth = FirebaseAuth.instance;
 // String _message;
 User loggedInUser;
 
-Timer timer = new Timer(new Duration(seconds: 5), () {
+Timer timer = new Timer.periodic(new Duration(seconds: 5), (timer) {
   print("Print after 5 seconds");
 });
 
@@ -40,7 +40,10 @@ class _TaskScreenState extends State<TaskScreen> {
     super.initState();
     test();
     getUser();
-    timer;
+
+    Timer.periodic(Duration(seconds: 5), (timer) {
+      print("Print after 5 seconds");
+    });
   }
 
   void test() async {

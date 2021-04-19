@@ -45,12 +45,20 @@ class _TaskScreenState extends State<TaskScreen> {
   Location instance = Location();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getUser();
     timer = Timer.periodic(Duration(seconds: 60), (timer) {
       test();
     });
+  }
+
+  void getStream() async {
+    await for (var snap
+        in _firestore.collection("currentLocation").snapshots()) {
+      // for (var messages in snap.gets) {
+      //   print(messages.doc);
+      // }
+    }
   }
 
   void test() async {
@@ -74,6 +82,7 @@ class _TaskScreenState extends State<TaskScreen> {
 
   @override
   Widget build(BuildContext context) {
+    getStream();
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
       body: Column(
@@ -114,7 +123,23 @@ class _TaskScreenState extends State<TaskScreen> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
-              child: DeviceList(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  StreamBuilder<QuerySnapshot>(
+                      stream:
+                          _firestore.collection("currentLocation").snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final locations = snapshot.data.docs;
+                          for (var location in locations) {
+                            print(location.data());
+                          }
+                          return Text("jdjjd");
+                        }
+                      })
+                ],
+              ),
             ),
           ),
         ],
@@ -122,4 +147,3 @@ class _TaskScreenState extends State<TaskScreen> {
     );
   }
 }
-

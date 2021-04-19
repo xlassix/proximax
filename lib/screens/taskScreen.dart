@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:proximax/services/location.dart';
 import 'package:proximax/services/locationsFinder.dart';
 import 'package:proximax/widgets/deviceList.dart';
 import 'package:geolocator/geolocator.dart';
@@ -16,9 +17,10 @@ class TaskScreen extends StatefulWidget {
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 String uid;
-String full_name;
+String displayName;
 User loggedInUser;
 SharedPreferences prefs;
+List<Location> _locationList;
 
 Timer timer = new Timer.periodic(new Duration(seconds: 5), (timer) {
   print("Print after 5 seconds");
@@ -31,9 +33,9 @@ void getUser() async {
     if (user != null) {
       loggedInUser = user;
       uid = user.uid;
-      full_name = user.displayName;
+      displayName = user.displayName;
     } else {
-      full_name = prefs.getString('display Name');
+      displayName = prefs.getString('display Name');
       uid = prefs.getString("userId");
     }
   } catch (e) {
@@ -68,7 +70,7 @@ class _TaskScreenState extends State<TaskScreen> {
       "time": DateTime.now(),
       "position_lat": position.latitude,
       "position_long": position.longitude,
-      "display Name": full_name
+      "display Name": displayName
     }, SetOptions(merge: true));
 
     print(position);

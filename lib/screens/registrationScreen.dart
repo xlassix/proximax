@@ -17,7 +17,7 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _formKey = GlobalKey<FormState>();
   String email;
-  String fullName;
+  String displayName;
   String password;
   String confirmPassword;
   SharedPreferences prefs;
@@ -113,7 +113,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) {
                       setState(() {
-                        full_name = value;
+                        displayName= value;
                       });
                     },
                     textAlign: TextAlign.center,
@@ -184,10 +184,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   email: email, password: password);
                           if (user != null) {
                             await user.user
-                                .updateProfile(displayName: fullName);
+                                .updateProfile(displayName: displayName);
                             await prefs.setString(
                                 "userId", _auth.currentUser.uid);
-                            await prefs.setString("display Name", fullName);
+                            await prefs.setString("display Name", displayName);
                             await Navigator.pushNamed(context, TaskScreen.id);
                           }
                         } catch (e) {

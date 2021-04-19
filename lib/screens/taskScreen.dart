@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:proximax/services/locations.dart';
+import 'package:proximax/services/locationsFinder.dart';
 import 'package:proximax/widgets/deviceList.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -42,7 +42,7 @@ void getUser() async {
 }
 
 class _TaskScreenState extends State<TaskScreen> {
-  Location instance = Location();
+  LocationFinder instance = LocationFinder();
   @override
   void initState() {
     super.initState();
@@ -62,7 +62,7 @@ class _TaskScreenState extends State<TaskScreen> {
   }
 
   void test() async {
-    Location locationInstance = Location();
+    LocationFinder locationInstance = LocationFinder();
     Position position = await locationInstance.getCurrentLocation();
     await _firestore.collection("currentLocation").doc(uid).set({
       "time": DateTime.now(),

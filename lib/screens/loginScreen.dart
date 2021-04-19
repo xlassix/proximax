@@ -150,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             await prefs.setString(
                                 "userId", _auth.currentUser.uid);
                             await prefs.setString(
-                                "display Name", _auth.currentUser.displayName);
+                                "display Name", _auth.currentUser.displayName??"No name");
                             print([
                               _auth.currentUser.uid,
                               _auth.currentUser.displayName

@@ -4,6 +4,8 @@ import 'package:proximax/services/locations.dart';
 import 'package:proximax/widgets/deviceList.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TaskScreen extends StatefulWidget {
   @override
@@ -12,20 +14,27 @@ class TaskScreen extends StatefulWidget {
 }
 
 final _auth = FirebaseAuth.instance;
-// final _firestore = FirebaseFirestore.instance;
-// String _message;
+final _firestore = FirebaseFirestore.instance;
+String uid;
+String full_name;
 User loggedInUser;
+SharedPreferences prefs;
 
 Timer timer = new Timer.periodic(new Duration(seconds: 5), (timer) {
   print("Print after 5 seconds");
 });
 
 void getUser() async {
+  prefs = await SharedPreferences.getInstance();
   try {
     final user = _auth.currentUser;
     if (user != null) {
       loggedInUser = user;
-      print(user.uid);
+      uid = user.uid;
+      full_name = user.displayName;
+    } else {
+      full_name = prefs.getString('display Name');
+      uid = prefs.getString("userId");
     }
   } catch (e) {
     print(e);
@@ -38,17 +47,22 @@ class _TaskScreenState extends State<TaskScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    test();
     getUser();
-
-    Timer.periodic(Duration(seconds: 5), (timer) {
-      print("Print after 5 seconds");
+    timer = Timer.periodic(Duration(seconds: 60), (timer) {
+      test();
     });
   }
 
   void test() async {
     Location locationInstance = Location();
     Position position = await locationInstance.getCurrentLocation();
+    await _firestore.collection("currentLocation").doc(uid).set({
+      "time": DateTime.now(),
+      "position_lat": position.latitude,
+      "position_long": position.longitude,
+      "display Name": full_name
+    }, SetOptions(merge: true));
+
     print(position);
   }
 
@@ -60,7 +74,6 @@ class _TaskScreenState extends State<TaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    test();
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
       body: Column(

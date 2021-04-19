@@ -17,9 +17,9 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _formKey = GlobalKey<FormState>();
   String email;
-  String full_name;
+  String fullName;
   String password;
-  String confirm_password;
+  String confirmPassword;
   SharedPreferences prefs;
 
   final _auth = FirebaseAuth.instance;
@@ -110,22 +110,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       EmailValidator(errorText: 'enter a valid email address'),
                 ),
                 TextFormField(
-                  keyboardType: TextInputType.emailAddress,
-                  onChanged: (value) {
-                    setState(() {
-                      full_name = value;
-                    });
-                  },
-                  textAlign: TextAlign.center,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.person),
-                    hintText: 'Enter your full Name',
-                    labelText: 'Name *',
-                  ),
-                  validator:
+                    keyboardType: TextInputType.emailAddress,
+                    onChanged: (value) {
+                      setState(() {
+                        full_name = value;
+                      });
+                    },
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.person),
+                      hintText: 'Enter your full Name',
+                      labelText: 'Name *',
+                    ),
+                    validator: MultiValidator([
+                      RequiredValidator(errorText: 'Name required!'),
                       MinLengthValidator(6,
-                        errorText: 'full Name must be at least 6 characters long'),
-                ),
+                          errorText:
+                              'full Name must be at least 6 characters long'),
+                    ])),
                 SizedBox(
                   height: 8.0,
                 ),
@@ -151,7 +153,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
                 TextFormField(
                   onChanged: (value) {
-                    confirm_password = value;
+                    confirmPassword = value;
                   },
                   decoration: const InputDecoration(
                     icon: Icon(Icons.lock),
@@ -181,9 +183,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               await _auth.createUserWithEmailAndPassword(
                                   email: email, password: password);
                           if (user != null) {
-                            await user.user.updateProfile(displayName: full_name); 
-                            await prefs.setString("userId", _auth.currentUser.uid);
-                            await prefs.setString("display Name", full_name);
+                            await user.user
+                                .updateProfile(displayName: fullName);
+                            await prefs.setString(
+                                "userId", _auth.currentUser.uid);
+                            await prefs.setString("display Name", fullName);
                             await Navigator.pushNamed(context, TaskScreen.id);
                           }
                         } catch (e) {

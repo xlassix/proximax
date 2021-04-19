@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:proximax/screens/loginScreen.dart';
 import 'package:proximax/screens/registrationScreen.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginScreen(),
+      home: RegistrationScreen(),
       routes:{
         LoginScreen.id: (context)=>LoginScreen(),
         TaskScreen.id:(context)=>TaskScreen(),

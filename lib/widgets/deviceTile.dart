@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DeviceTile extends StatelessWidget {
-  DeviceTile({this.fullName, this.proximity});
-  String fullName;
-  String proximity;
+  DeviceTile({@required this.fullName, @required this.proximity});
+  final String fullName;
+  final String proximity;
 
   @override
   Widget build(BuildContext context) {
@@ -11,13 +11,16 @@ class DeviceTile extends StatelessWidget {
       elevation: 5,
       child: Row(
         children: [
-          CircleAvatar(child: Icon(Icons.ac_unit)),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: CircleAvatar(child: Icon(Icons.ac_unit)),
+          ),
           SizedBox(
             width: 20,
           ),
           Padding(
             padding:
-                const EdgeInsets.symmetric(vertical: 14.0, horizontal: 5.0),
+                const EdgeInsets.symmetric(vertical: 14.0, horizontal: 2.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: RegistrationScreen(),
+      home: TaskScreen(),
       routes:{
         LoginScreen.id: (context)=>LoginScreen(),
         TaskScreen.id:(context)=>TaskScreen(),

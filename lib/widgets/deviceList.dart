@@ -5,8 +5,11 @@ class DeviceList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [DeviceTile()],
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: ListView(
+        children: [DeviceTile(fullName: "Oki Ayobami",proximity: "73",)],
+      ),
     );
   }
 }

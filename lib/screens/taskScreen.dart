@@ -86,13 +86,6 @@ class _TaskScreenState extends State<TaskScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      child: Icon(
-                        Icons.location_city,
-                        size: 40.0,
-                        color: Colors.lightBlue,
-                      ),
-                    ),
                     SizedBox(
                       height: 15.0,
                     ),
@@ -124,24 +117,9 @@ class _TaskScreenState extends State<TaskScreen> {
               child: DeviceList(),
             ),
           ),
-          FloatingActionButton(onPressed: () async {
-            await instance.getCurrentLocation();
-          })
         ],
       ),
     );
   }
 }
 
-// UserCredential(
-//   additionalUserInfo: AdditionalUserInfo(isNewUser: false,
-//    profile: {},
-//    providerId: null,
-//    username: null), credential: null,
-// user: User(displayName: null, email: koko@g.com, emailVerified: false, isAnonymous: false,
-// metadata: UserMetadata(creationTime: 2021-04-17 08:03:54.658, lastSignInTime: 2021-04-17 12:09:57.641),
-//  phoneNumber: null,
-//   photoURL:
-//    null,
-//    providerData,
-//    [UserInfo(displayName: null, email: koko@g.com, phoneNumber: null, photoURL: null, providerId: password, uid: koko@g.com)], refreshToken: , tenantId: null, uid: uSVm2l6KUgduqOfTuLTeeMZa4CI3))

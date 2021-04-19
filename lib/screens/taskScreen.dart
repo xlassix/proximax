@@ -20,7 +20,6 @@ String uid;
 String displayName;
 User loggedInUser;
 SharedPreferences prefs;
-List<Location> _locationList;
 
 Timer timer = new Timer.periodic(new Duration(seconds: 5), (timer) {
   print("Print after 5 seconds");
@@ -68,9 +67,9 @@ class _TaskScreenState extends State<TaskScreen> {
     Position position = await locationInstance.getCurrentLocation();
     await _firestore.collection("currentLocation").doc(uid).set({
       "time": DateTime.now(),
-      "position_lat": position.latitude,
-      "position_long": position.longitude,
-      "display Name": displayName
+      "positionLat": position.latitude,
+      "positionLong": position.longitude,
+      "displayName": displayName
     }, SetOptions(merge: true));
 
     print(position);
@@ -132,12 +131,40 @@ class _TaskScreenState extends State<TaskScreen> {
                       stream:
                           _firestore.collection("currentLocation").snapshots(),
                       builder: (context, snapshot) {
-                        if (snapshot.hasData) {
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              backgroundColor: Colors.blueAccent,
+                            ),
+                          );
+                        } else {
+                          List<Location> locationList = [
+                            Location(
+                                displayName: 'displayName',
+                                positionLat: 353,
+                                positionLong: 3435,
+                                time: Timestamp.now())
+                          ];
                           final locations = snapshot.data.docs;
                           for (var location in locations) {
-                            print(location.data());
+                            Map _data = location.data();
+                            print({
+                              "displayName": _data['displayName'],
+                              "positionLat": _data['positionLat'],
+                              "positionLong": _data['positionLong'],
+                              "time": _data['time']
+                            });
+                            Location temp = (Location(
+                                displayName: _data['displayName'],
+                                positionLat: _data['positionLat'],
+                                positionLong: _data['positionLong'],
+                                time: _data['time']));
+                            locationList.add(temp);
+                            print(locationList);
                           }
-                          return Text("jdjjd");
+                          print(locationList);
+                          return DeviceList(locationList: locationList);
+                          //return Text("erd");
                         }
                       })
                 ],

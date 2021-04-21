@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class TaskScreen extends StatefulWidget {
   @override
@@ -16,10 +17,13 @@ class TaskScreen extends StatefulWidget {
 
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
+LocationFinder _instance = LocationFinder();
 String uid;
 String displayName;
 User loggedInUser;
 SharedPreferences prefs;
+Position position;
+bool _loading = false;
 
 Timer timer = new Timer.periodic(new Duration(seconds: 5), (timer) {
   print("Print after 5 seconds");
@@ -64,7 +68,7 @@ class _TaskScreenState extends State<TaskScreen> {
 
   void test() async {
     LocationFinder locationInstance = LocationFinder();
-    Position position = await locationInstance.getCurrentLocation();
+    position = await locationInstance.getCurrentLocation();
     await _firestore.collection("currentLocation").doc(uid).set({
       "time": DateTime.now(),
       "positionLat": position.latitude,
@@ -131,34 +135,30 @@ class _TaskScreenState extends State<TaskScreen> {
                       stream:
                           _firestore.collection("currentLocation").snapshots(),
                       builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return Center(
-                            child: CircularProgressIndicator(
-                              backgroundColor: Colors.blueAccent,
-                            ),
+                        if (!snapshot.hasData || position == null) {
+                          return Expanded(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(),
+                                  CircularProgressIndicator(
+                                    backgroundColor: Colors.blueAccent,
+                                  ),
+                                ]),
                           );
                         } else {
-                          List<Location> locationList = [
-                            Location(
-                                displayName: 'displayName',
-                                positionLat: 353,
-                                positionLong: 3435,
-                                time: Timestamp.now())
-                          ];
+                          List<Location> locationList = [];
                           final locations = snapshot.data.docs;
                           for (var location in locations) {
                             Map _data = location.data();
-                            print({
-                              "displayName": _data['displayName'],
-                              "positionLat": _data['positionLat'],
-                              "positionLong": _data['positionLong'],
-                              "time": _data['time']
-                            });
                             Location temp = (Location(
                                 displayName: _data['displayName'],
                                 positionLat: _data['positionLat'],
                                 positionLong: _data['positionLong'],
                                 time: _data['time']));
+                            temp.getProximity(
+                                position.latitude, position.longitude);
                             locationList.add(temp);
                             print(locationList);
                           }

@@ -15,11 +15,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: TaskScreen(),
-      routes:{
-        LoginScreen.id: (context)=>LoginScreen(),
-        TaskScreen.id:(context)=>TaskScreen(),
-        RegistrationScreen.id: (context)=>RegistrationScreen()
+      home: LoginScreen(),
+      routes: {
+        LoginScreen.id: (context) => LoginScreen(),
+        TaskScreen.id: (context) => TaskScreen(),
+        RegistrationScreen.id: (context) => RegistrationScreen()
       },
     );
   }

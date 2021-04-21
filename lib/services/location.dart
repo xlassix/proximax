@@ -7,15 +7,17 @@ class Location {
   double positionLat;
   double positionLong;
   Timestamp time;
+  double distance;
 
   Location(
-      {@required  this.displayName,
+      {@required this.displayName,
       @required this.positionLat,
       @required this.positionLong,
       @required this.time});
 
   double getProximity(double lat, double long) {
-    return Geolocator.distanceBetween(lat, long, positionLat, positionLat);
+    distance = Geolocator.distanceBetween(lat, long, positionLat, positionLat);
+    return distance;
   }
 
   String getDisplayName() {

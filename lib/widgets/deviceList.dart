@@ -22,6 +22,7 @@ class _DeviceListState extends State<DeviceList> {
           return DeviceTile(
             fullName: element.displayName ?? "",
             proximity: element.distance.toStringAsFixed(2) ?? "",
+            accuracy: element.distance.toStringAsFixed(2) ?? "",
           );
         }).toList(),
       ),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class DeviceTile extends StatelessWidget {
-  DeviceTile({@required this.fullName, @required this.proximity});
+  DeviceTile({@required this.fullName, @required this.proximity,@required this.accuracy});
   final String fullName;
   final String proximity;
+  final String accuracy;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class DeviceTile extends StatelessWidget {
           ),
           Padding(
             padding:
-                const EdgeInsets.symmetric(vertical: 14.0, horizontal: 2.0),
+                const EdgeInsets.symmetric(vertical: 14.0, horizontal: 10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -32,7 +33,14 @@ class DeviceTile extends StatelessWidget {
                 SizedBox(
                   height: 5,
                 ),
-                Text("Proximity:" + proximity + "m"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Proximity:" + proximity + "m"),
+                    SizedBox(width: 20),
+                    Text("Accuracy:" + accuracy + "m"),
+                  ],
+                ),
               ],
             ),
           )

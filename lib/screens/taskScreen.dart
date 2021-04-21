@@ -69,12 +69,22 @@ class _TaskScreenState extends State<TaskScreen> {
   void test() async {
     LocationFinder locationInstance = LocationFinder();
     position = await locationInstance.getCurrentLocation();
-    await _firestore.collection("currentLocation").doc(uid).set({
+
+    var _locationDb = _firestore.collection("Locations").add({
       "time": DateTime.now(),
       "positionLat": position.latitude,
       "positionLong": position.longitude,
       "displayName": displayName
+    });
+
+    await _firestore.collection("currentLocation").doc(uid).set({
+      "time": DateTime.now(),
+      "positionLat": position.latitude,
+      "positionLong": position.longitude,
+      "displayName": displayName,
+      "accuracy":position.accuracy
     }, SetOptions(merge: true));
+    await _locationDb;
 
     print(position);
   }
@@ -156,7 +166,8 @@ class _TaskScreenState extends State<TaskScreen> {
                                 displayName: _data['displayName'],
                                 positionLat: _data['positionLat'],
                                 positionLong: _data['positionLong'],
-                                time: _data['time']));
+                                time: _data['time'],
+                                accuracy: _data["accuracy"]));
                             temp.getProximity(
                                 position.latitude, position.longitude);
                             locationList.add(temp);
@@ -164,7 +175,6 @@ class _TaskScreenState extends State<TaskScreen> {
                           }
                           print(locationList);
                           return DeviceList(locationList: locationList);
-                          //return Text("erd");
                         }
                       })
                 ],

@@ -8,15 +8,23 @@ class Location {
   double positionLong;
   Timestamp time;
   double distance;
+  double accuracy;
 
   Location(
       {@required this.displayName,
       @required this.positionLat,
       @required this.positionLong,
-      @required this.time});
+      @required this.time,
+      @required this.accuracy});
 
   double getProximity(double lat, double long) {
-    distance = Geolocator.distanceBetween(lat, long, positionLat, positionLat);
+
+    distance = Geolocator.distanceBetween(
+      positionLat,
+      positionLong,
+      lat,
+      long,
+    );
     return distance;
   }
 

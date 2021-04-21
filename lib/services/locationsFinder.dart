@@ -32,7 +32,6 @@ class LocationFinder {
         desiredAccuracy: LocationAccuracy.best);
     latitude = positionInstance.latitude;
     longitude = positionInstance.longitude;
-    print([latitude, longitude]);
     return positionInstance;
   }
 }

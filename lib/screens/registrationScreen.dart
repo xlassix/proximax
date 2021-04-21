@@ -113,7 +113,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) {
                       setState(() {
-                        displayName= value;
+                        displayName = value;
                       });
                     },
                     textAlign: TextAlign.center,
@@ -201,6 +201,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         });
                       }
                     }),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "I have an Account.",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "Login In",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    )
+                  ],
+                )
               ],
             ),
           ),

@@ -1,11 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:proximax/screens/registrationScreen.dart';
 import 'package:proximax/screens/taskScreen.dart';
 import 'package:proximax/widgets/buttons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
+const colorizeColors = [
+  Colors.purple,
+  Colors.blue,
+  Colors.yellow,
+  Colors.red,
+];
+
+const colorizeTextStyle = TextStyle(
+  fontSize: 30.0,
+  fontFamily: 'Horizon',
+);
 class LoginScreen extends StatefulWidget {
   static const String id = "loginScreen";
   @override
@@ -82,12 +95,24 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Hero(
-                  tag: "logo",
-                  child: Container(
-                    height: 200.0,
-                    child: Image.asset('images/logo.png'),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Hero(
+                      tag: "logo",
+                      child: Container(
+                        height: 100.0,
+                        child: Image.asset('images/logo.png'),
+                      ),
+                    ),
+                    AnimatedTextKit(
+    animatedTexts: [      ColorizeAnimatedText(
+        'Proximax',
+        textStyle: colorizeTextStyle,
+        colors: colorizeColors,
+      ),],    isRepeatingAnimation: true,)
+                  ],
                 ),
                 SizedBox(
                   height: 20.0,
@@ -149,8 +174,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (user != null) {
                             await prefs.setString(
                                 "userId", _auth.currentUser.uid);
-                            await prefs.setString(
-                                "display Name", _auth.currentUser.displayName??"No name");
+                            await prefs.setString("display Name",
+                                _auth.currentUser.displayName ?? "No name");
                             print([
                               _auth.currentUser.uid,
                               _auth.currentUser.displayName
@@ -168,6 +193,24 @@ class _LoginScreenState extends State<LoginScreen> {
                         });
                       }
                     }),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "I dont have an Account? ",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, RegistrationScreen.id);
+                        },
+                        child: Text(
+                          "Create One",
+                          style: TextStyle(color: Colors.black),
+                        )
+                      )
+                  ],
+                )
               ],
             ),
           ),

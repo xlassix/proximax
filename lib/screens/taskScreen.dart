@@ -7,11 +7,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class TaskScreen extends StatefulWidget {
   @override
   _TaskScreenState createState() => _TaskScreenState();
+  Position position;
+  TaskScreen({this.position});
   static const String id = "taskScreen";
 }
 
@@ -57,15 +58,6 @@ class _TaskScreenState extends State<TaskScreen> {
     });
   }
 
-  void getStream() async {
-    await for (var snap
-        in _firestore.collection("currentLocation").snapshots()) {
-      // for (var messages in snap.gets) {
-      //   print(messages.doc);
-      // }
-    }
-  }
-
   void test() async {
     LocationFinder locationInstance = LocationFinder();
     position = await locationInstance.getCurrentLocation();
@@ -82,7 +74,7 @@ class _TaskScreenState extends State<TaskScreen> {
       "positionLat": position.latitude,
       "positionLong": position.longitude,
       "displayName": displayName,
-      "accuracy":position.accuracy
+      "accuracy": position.accuracy
     }, SetOptions(merge: true));
     await _locationDb;
 
@@ -97,7 +89,9 @@ class _TaskScreenState extends State<TaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    getStream();
+    position = position!= null
+              ?position:widget.position!= null
+              ?widget.position:position;
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
       body: Column(
@@ -154,7 +148,7 @@ class _TaskScreenState extends State<TaskScreen> {
                                   Row(),
                                   CircularProgressIndicator(
                                     backgroundColor: Colors.blueAccent,
-                                  ),
+                                  )
                                 ]),
                           );
                         } else {

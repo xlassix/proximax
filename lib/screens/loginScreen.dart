@@ -19,6 +19,7 @@ const colorizeTextStyle = TextStyle(
   fontSize: 30.0,
   fontFamily: 'Horizon',
 );
+
 class LoginScreen extends StatefulWidget {
   static const String id = "loginScreen";
   @override
@@ -107,11 +108,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     AnimatedTextKit(
-    animatedTexts: [      ColorizeAnimatedText(
-        'Proximax',
-        textStyle: colorizeTextStyle,
-        colors: colorizeColors,
-      ),],    isRepeatingAnimation: true,)
+                      animatedTexts: [
+                        ColorizeAnimatedText(
+                          'Proximax',
+                          textStyle: colorizeTextStyle,
+                          colors: colorizeColors,
+                        ),
+                      ],
+                      isRepeatingAnimation: true,
+                    )
                   ],
                 ),
                 SizedBox(
@@ -159,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 errorWidget(errorMessage),
                 CustomBtn(
                     text: ('Log In'),
-                    bgColor: Colors.black,
+                    bgColor: Color(0xFF8965BB),
                     textColor: Colors.white,
                     onPress: () async {
                       if (_formKey.currentState.validate()) {
@@ -198,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Text(
                       "I dont have an Account? ",
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Color(0xFF8965BB)),
                     ),
                     TextButton(
                         onPressed: () {
@@ -206,9 +211,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: Text(
                           "Create One",
-                          style: TextStyle(color: Colors.black),
-                        )
-                      )
+                          style: TextStyle(color: Color(0xFF8965BB)),
+                        ))
                   ],
                 )
               ],

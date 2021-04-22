@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -5,6 +6,19 @@ import 'package:proximax/screens/taskScreen.dart';
 import 'package:proximax/widgets/buttons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+const colorizeColors = [
+  Colors.purple,
+  Colors.blue,
+  Colors.yellow,
+  Colors.red,
+];
+
+const colorizeTextStyle = TextStyle(
+  fontSize: 20.0,
+  fontFamily: 'Horizon',
+);
+
 
 class RegistrationScreen extends StatefulWidget {
   static const String id = "registrationScreen";
@@ -25,6 +39,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final _auth = FirebaseAuth.instance;
   bool _loading = false;
   String errorMessage;
+  
 
   // void update(TextType textType, String value) {
   //   setState(() {
@@ -83,12 +98,28 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Hero(
-                  tag: "logo",
-                  child: Container(
-                    height: 10.0,
-                    child: Image.asset('images/logo.png'),
-                  ),
+                                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Hero(
+                      tag: "logo",
+                      child: Container(
+                        height: 66.0,
+                        child: Image.asset('images/logo.png'),
+                      ),
+                    ),
+                    AnimatedTextKit(
+                      animatedTexts: [
+                        ColorizeAnimatedText(
+                          'Proximax',
+                          textStyle: colorizeTextStyle,
+                          colors: colorizeColors,
+                        ),
+                      ],
+                      isRepeatingAnimation: true,
+                    )
+                  ],
                 ),
                 SizedBox(
                   height: 20.0,
@@ -169,7 +200,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 errorWidget(errorMessage),
                 CustomBtn(
                     text: ('Sign Up'),
-                    bgColor: Colors.black,
+                    bgColor: Color(0xFF8965BB),
                     textColor: Colors.white,
                     onPress: () async {
                       if (_formKey.currentState.validate()) {
@@ -206,7 +237,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   children: [
                     Text(
                       "I have an Account.",
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: Color(0xFF8965BB)),
                     ),
                     TextButton(
                       onPressed: () {
@@ -214,7 +245,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       },
                       child: Text(
                         "Login In",
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(color: Color(0xFF8965BB)),
                       ),
                     )
                   ],

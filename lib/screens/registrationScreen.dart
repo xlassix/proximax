@@ -5,6 +5,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:proximax/screens/taskScreen.dart';
 import 'package:proximax/widgets/buttons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:proximax/widgets/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const colorizeColors = [
@@ -200,7 +201,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 errorWidget(errorMessage),
                 CustomBtn(
                     text: ('Sign Up'),
-                    bgColor: Color(0xFF8965BB),
+                    bgColor: kBgColor,
                     textColor: Colors.white,
                     onPress: () async {
                       if (_formKey.currentState.validate()) {
@@ -219,7 +220,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             await prefs.setString(
                                 "userId", _auth.currentUser.uid);
                             await prefs.setString("display Name", displayName);
-                            await Navigator.pushNamed(context, TaskScreen.id);
+                            await   Navigator.pushNamedAndRemoveUntil(context, TaskScreen.id, (_) => false);
                           }
                         } catch (e) {
                           print(e.toString());
@@ -237,7 +238,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   children: [
                     Text(
                       "I have an Account.",
-                      style: TextStyle(color: Color(0xFF8965BB)),
+                      style: TextStyle(color:kBgColor),
                     ),
                     TextButton(
                       onPressed: () {
@@ -245,7 +246,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       },
                       child: Text(
                         "Login In",
-                        style: TextStyle(color: Color(0xFF8965BB)),
+                        style: TextStyle(color: kBgColor),
                       ),
                     )
                   ],

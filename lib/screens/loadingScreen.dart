@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:proximax/screens/loginScreen.dart';
 import 'package:proximax/screens/taskScreen.dart';
 import 'package:proximax/services/locationsFinder.dart';
+import 'package:proximax/widgets/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Loading extends StatefulWidget {
@@ -20,7 +21,7 @@ class _LoadingState extends State<Loading> {
     if (prefs.getString("userId") == null) {
       Navigator.pushReplacementNamed(context, LoginScreen.id);
     } else {
-      Navigator.pushReplacementNamed(context, TaskScreen.id);
+      Navigator.pushNamedAndRemoveUntil(context, TaskScreen.id, (_) => false);
     }
   }
 
@@ -34,7 +35,7 @@ class _LoadingState extends State<Loading> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[900],
+      backgroundColor: kBgColor,
       body: Center(
           child: Column(
         children: [

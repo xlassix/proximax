@@ -5,6 +5,7 @@ import 'package:proximax/screens/registrationScreen.dart';
 import 'package:proximax/screens/taskScreen.dart';
 import 'package:proximax/widgets/buttons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:proximax/widgets/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
@@ -164,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 errorWidget(errorMessage),
                 CustomBtn(
                     text: ('Log In'),
-                    bgColor: Color(0xFF8965BB),
+                    bgColor: kBgColor,
                     textColor: Colors.white,
                     onPress: () async {
                       if (_formKey.currentState.validate()) {
@@ -185,7 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               _auth.currentUser.uid,
                               _auth.currentUser.displayName
                             ]);
-                            await Navigator.pushNamed(context, TaskScreen.id);
+                            await       Navigator.pushNamedAndRemoveUntil(context, TaskScreen.id, (_) => false);
                           }
                         } catch (e) {
                           print(e.toString());
@@ -203,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Text(
                       "I dont have an Account? ",
-                      style: TextStyle(color: Color(0xFF8965BB)),
+                      style: TextStyle(color: kBgColor),
                     ),
                     TextButton(
                         onPressed: () {
@@ -211,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: Text(
                           "Create One",
-                          style: TextStyle(color: Color(0xFF8965BB)),
+                          style: TextStyle(color:kBgColor ),
                         ))
                   ],
                 )

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:proximax/services/location.dart';
 import 'package:proximax/services/locationsFinder.dart';
+import 'package:proximax/widgets/constant.dart';
 import 'package:proximax/widgets/deviceList.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -53,7 +54,7 @@ class _TaskScreenState extends State<TaskScreen> {
   void initState() {
     super.initState();
     getUser();
-    timer = Timer.periodic(Duration(seconds: 60), (timer) {
+    timer = Timer.periodic(Duration(seconds: 30), (timer) {
       test();
     });
   }
@@ -93,7 +94,7 @@ class _TaskScreenState extends State<TaskScreen> {
               ?position:widget.position!= null
               ?widget.position:position;
     return Scaffold(
-      backgroundColor: Colors.lightBlueAccent,
+      backgroundColor: kBgColor,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -114,11 +115,6 @@ class _TaskScreenState extends State<TaskScreen> {
                           fontSize: 30,
                           color: Colors.white),
                     ),
-                    Text("2 devices",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 17,
-                            color: Colors.white))
                   ],
                 ),
               ],
@@ -147,7 +143,7 @@ class _TaskScreenState extends State<TaskScreen> {
                                 children: [
                                   Row(),
                                   CircularProgressIndicator(
-                                    backgroundColor: Colors.blueAccent,
+                                    backgroundColor: kBgColor,
                                   )
                                 ]),
                           );

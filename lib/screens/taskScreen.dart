@@ -1,31 +1,46 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:proximax/services/locations.dart';
+import 'package:proximax/services/location.dart';
+import 'package:proximax/services/locationsFinder.dart';
 import 'package:proximax/widgets/deviceList.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TaskScreen extends StatefulWidget {
   @override
   _TaskScreenState createState() => _TaskScreenState();
+  Position position;
+  TaskScreen({this.position});
   static const String id = "taskScreen";
 }
 
 final _auth = FirebaseAuth.instance;
-// final _firestore = FirebaseFirestore.instance;
-// String _message;
+final _firestore = FirebaseFirestore.instance;
+LocationFinder _instance = LocationFinder();
+String uid;
+String displayName;
 User loggedInUser;
+SharedPreferences prefs;
+Position position;
+bool _loading = false;
 
 Timer timer = new Timer.periodic(new Duration(seconds: 5), (timer) {
   print("Print after 5 seconds");
 });
 
 void getUser() async {
+  prefs = await SharedPreferences.getInstance();
   try {
     final user = _auth.currentUser;
     if (user != null) {
       loggedInUser = user;
-      print(user.uid);
+      uid = user.uid;
+      displayName = user.displayName;
+    } else {
+      displayName = prefs.getString('display Name');
+      uid = prefs.getString("userId");
     }
   } catch (e) {
     print(e);
@@ -33,22 +48,36 @@ void getUser() async {
 }
 
 class _TaskScreenState extends State<TaskScreen> {
-  Location instance = Location();
+  LocationFinder instance = LocationFinder();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    test();
     getUser();
-
-    Timer.periodic(Duration(seconds: 5), (timer) {
-      print("Print after 5 seconds");
+    timer = Timer.periodic(Duration(seconds: 60), (timer) {
+      test();
     });
   }
 
   void test() async {
-    Location locationInstance = Location();
-    Position position = await locationInstance.getCurrentLocation();
+    LocationFinder locationInstance = LocationFinder();
+    position = await locationInstance.getCurrentLocation();
+
+    var _locationDb = _firestore.collection("Locations").add({
+      "time": DateTime.now(),
+      "positionLat": position.latitude,
+      "positionLong": position.longitude,
+      "displayName": displayName
+    });
+
+    await _firestore.collection("currentLocation").doc(uid).set({
+      "time": DateTime.now(),
+      "positionLat": position.latitude,
+      "positionLong": position.longitude,
+      "displayName": displayName,
+      "accuracy": position.accuracy
+    }, SetOptions(merge: true));
+    await _locationDb;
+
     print(position);
   }
 
@@ -60,7 +89,9 @@ class _TaskScreenState extends State<TaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    test();
+    position = position!= null
+              ?position:widget.position!= null
+              ?widget.position:position;
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
       body: Column(
@@ -73,13 +104,6 @@ class _TaskScreenState extends State<TaskScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CircleAvatar(
-                      child: Icon(
-                        Icons.location_city,
-                        size: 40.0,
-                        color: Colors.lightBlue,
-                      ),
-                    ),
                     SizedBox(
                       height: 15.0,
                     ),
@@ -108,27 +132,51 @@ class _TaskScreenState extends State<TaskScreen> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
-              child: DeviceList(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  StreamBuilder<QuerySnapshot>(
+                      stream:
+                          _firestore.collection("currentLocation").snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData || position == null) {
+                          return Expanded(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(),
+                                  CircularProgressIndicator(
+                                    backgroundColor: Colors.blueAccent,
+                                  )
+                                ]),
+                          );
+                        } else {
+                          List<Location> locationList = [];
+                          final locations = snapshot.data.docs;
+                          for (var location in locations) {
+                            Map _data = location.data();
+                            Location temp = (Location(
+                                displayName: _data['displayName'],
+                                positionLat: _data['positionLat'],
+                                positionLong: _data['positionLong'],
+                                time: _data['time'],
+                                accuracy: _data["accuracy"]));
+                            temp.getProximity(
+                                position.latitude, position.longitude);
+                            locationList.add(temp);
+                            print(locationList);
+                          }
+                          print(locationList);
+                          return DeviceList(locationList: locationList);
+                        }
+                      })
+                ],
+              ),
             ),
           ),
-          FloatingActionButton(onPressed: () async {
-            await instance.getCurrentLocation();
-          })
         ],
       ),
     );
   }
 }
-
-// UserCredential(
-//   additionalUserInfo: AdditionalUserInfo(isNewUser: false,
-//    profile: {},
-//    providerId: null,
-//    username: null), credential: null,
-// user: User(displayName: null, email: koko@g.com, emailVerified: false, isAnonymous: false,
-// metadata: UserMetadata(creationTime: 2021-04-17 08:03:54.658, lastSignInTime: 2021-04-17 12:09:57.641),
-//  phoneNumber: null,
-//   photoURL:
-//    null,
-//    providerData,
-//    [UserInfo(displayName: null, email: koko@g.com, phoneNumber: null, photoURL: null, providerId: password, uid: koko@g.com)], refreshToken: , tenantId: null, uid: uSVm2l6KUgduqOfTuLTeeMZa4CI3))

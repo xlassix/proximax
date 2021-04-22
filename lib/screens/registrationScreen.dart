@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -5,6 +6,19 @@ import 'package:proximax/screens/taskScreen.dart';
 import 'package:proximax/widgets/buttons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+const colorizeColors = [
+  Colors.purple,
+  Colors.blue,
+  Colors.yellow,
+  Colors.red,
+];
+
+const colorizeTextStyle = TextStyle(
+  fontSize: 20.0,
+  fontFamily: 'Horizon',
+);
+
 
 class RegistrationScreen extends StatefulWidget {
   static const String id = "registrationScreen";
@@ -17,14 +31,15 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _formKey = GlobalKey<FormState>();
   String email;
-  String full_name;
+  String displayName;
   String password;
-  String confirm_password;
+  String confirmPassword;
   SharedPreferences prefs;
 
   final _auth = FirebaseAuth.instance;
   bool _loading = false;
   String errorMessage;
+  
 
   // void update(TextType textType, String value) {
   //   setState(() {
@@ -83,12 +98,28 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Hero(
-                  tag: "logo",
-                  child: Container(
-                    height: 10.0,
-                    child: Image.asset('images/logo.png'),
-                  ),
+                                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Hero(
+                      tag: "logo",
+                      child: Container(
+                        height: 66.0,
+                        child: Image.asset('images/logo.png'),
+                      ),
+                    ),
+                    AnimatedTextKit(
+                      animatedTexts: [
+                        ColorizeAnimatedText(
+                          'Proximax',
+                          textStyle: colorizeTextStyle,
+                          colors: colorizeColors,
+                        ),
+                      ],
+                      isRepeatingAnimation: true,
+                    )
+                  ],
                 ),
                 SizedBox(
                   height: 20.0,
@@ -110,22 +141,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       EmailValidator(errorText: 'enter a valid email address'),
                 ),
                 TextFormField(
-                  keyboardType: TextInputType.emailAddress,
-                  onChanged: (value) {
-                    setState(() {
-                      full_name = value;
-                    });
-                  },
-                  textAlign: TextAlign.center,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.person),
-                    hintText: 'Enter your full Name',
-                    labelText: 'Name *',
-                  ),
-                  validator:
+                    keyboardType: TextInputType.emailAddress,
+                    onChanged: (value) {
+                      setState(() {
+                        displayName = value;
+                      });
+                    },
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.person),
+                      hintText: 'Enter your full Name',
+                      labelText: 'Name *',
+                    ),
+                    validator: MultiValidator([
+                      RequiredValidator(errorText: 'Name required!'),
                       MinLengthValidator(6,
-                        errorText: 'full Name must be at least 6 characters long'),
-                ),
+                          errorText:
+                              'full Name must be at least 6 characters long'),
+                    ])),
                 SizedBox(
                   height: 8.0,
                 ),
@@ -151,7 +184,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
                 TextFormField(
                   onChanged: (value) {
-                    confirm_password = value;
+                    confirmPassword = value;
                   },
                   decoration: const InputDecoration(
                     icon: Icon(Icons.lock),
@@ -167,7 +200,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 errorWidget(errorMessage),
                 CustomBtn(
                     text: ('Sign Up'),
-                    bgColor: Colors.black,
+                    bgColor: Color(0xFF8965BB),
                     textColor: Colors.white,
                     onPress: () async {
                       if (_formKey.currentState.validate()) {
@@ -181,9 +214,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               await _auth.createUserWithEmailAndPassword(
                                   email: email, password: password);
                           if (user != null) {
-                            await user.user.updateProfile(displayName: full_name); 
-                            await prefs.setString("userId", _auth.currentUser.uid);
-                            await prefs.setString("display Name", full_name);
+                            await user.user
+                                .updateProfile(displayName: displayName);
+                            await prefs.setString(
+                                "userId", _auth.currentUser.uid);
+                            await prefs.setString("display Name", displayName);
                             await Navigator.pushNamed(context, TaskScreen.id);
                           }
                         } catch (e) {
@@ -197,6 +232,24 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         });
                       }
                     }),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "I have an Account.",
+                      style: TextStyle(color: Color(0xFF8965BB)),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "Login In",
+                        style: TextStyle(color: Color(0xFF8965BB)),
+                      ),
+                    )
+                  ],
+                )
               ],
             ),
           ),

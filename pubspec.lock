@@ -254,6 +254,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  pl_notifications:
+    dependency: "direct main"
+    description:
+      name: pl_notifications
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.3+1"
   platform:
     dependency: transitive
     description:

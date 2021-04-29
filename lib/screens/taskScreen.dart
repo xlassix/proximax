@@ -78,8 +78,6 @@ class _TaskScreenState extends State<TaskScreen> {
       "accuracy": position.accuracy
     }, SetOptions(merge: true));
     await _locationDb;
-
-    print(position);
   }
 
   @override
@@ -161,9 +159,7 @@ class _TaskScreenState extends State<TaskScreen> {
                             temp.getProximity(
                                 position.latitude, position.longitude);
                             locationList.add(temp);
-                            print(locationList);
                           }
-                          print(locationList);
                           return DeviceList(locationList: locationList);
                         }
                       })

@@ -225,7 +225,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             await   Navigator.pushNamedAndRemoveUntil(context, TaskScreen.id, (_) => false);
                           }
                         } catch (e) {
-                          print(e.toString());
                           setState(() {
                             errorMessage = e.toString();
                           });

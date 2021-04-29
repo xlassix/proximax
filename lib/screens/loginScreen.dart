@@ -182,14 +182,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 "userId", _auth.currentUser.uid);
                             await prefs.setString("display Name",
                                 _auth.currentUser.displayName ?? "No name");
-                            print([
-                              _auth.currentUser.uid,
-                              _auth.currentUser.displayName
-                            ]);
                             await       Navigator.pushNamedAndRemoveUntil(context, TaskScreen.id, (_) => false);
                           }
                         } catch (e) {
-                          print(e.toString());
                           setState(() {
                             errorMessage = e.toString();
                           });

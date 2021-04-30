@@ -24,7 +24,7 @@ class Location {
       positionLong,
       lat,
       long,
-    );
+    )/10;
     return distance;
   }
 

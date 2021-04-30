@@ -9,6 +9,9 @@ class DeviceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: double.parse(proximity)==0.0?
+      Colors.red: double.parse(proximity)<1.0?
+      Colors.yellow:Colors.green,
       elevation: 5,
       child: Row(
         children: [
@@ -27,6 +30,7 @@ class DeviceTile extends StatelessWidget {
               children: [
                 Text(fullName,
                     style: TextStyle(
+                      color: Colors.white,
                       fontWeight: FontWeight.w400,
                       fontSize: 17,
                     )),
@@ -36,9 +40,12 @@ class DeviceTile extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Proximity:" + proximity + "m"),
+                    Text("Proximity:" + proximity + "m",
+                    style: TextStyle(
+                      color: Colors.white,)),
                     SizedBox(width: 20),
-                    Text("Accuracy:" + accuracy + "m"),
+                    Text("Accuracy:" + accuracy + "m",style: TextStyle(
+                      color: Colors.white,)),
                   ],
                 ),
               ],

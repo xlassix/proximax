@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pl_notifications/pl_notifications.dart';
 import 'package:proximax/services/location.dart';
 import 'package:proximax/widgets/deviceTile.dart';
 
@@ -18,7 +19,8 @@ class _DeviceListState extends State<DeviceList> {
         children: widget.locationList.where((element) {
           return DateTime.now().difference(DateTime.fromMicrosecondsSinceEpoch(element.time.microsecondsSinceEpoch)).inMinutes<5;
         }).map((var element) {
-          print(DateTime.now().difference(DateTime.fromMicrosecondsSinceEpoch(element.time.microsecondsSinceEpoch)).inMinutes);
+          //print(DateTime.now().difference(DateTime.fromMicrosecondsSinceEpoch(element.time.microsecondsSinceEpoch)).inMinutes);
+
           return DeviceTile(
             fullName: element.displayName ?? "",
             proximity: element.distance.toStringAsFixed(2) ?? "",

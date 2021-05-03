@@ -47,6 +47,7 @@ class DeviceTile extends StatelessWidget {
                     Text("Accuracy:" + accuracy + "m",style: TextStyle(
                       color: Colors.white,)),
                   ],
+                  
                 ),
               ],
             ),

@@ -5,9 +5,11 @@ import 'package:proximax/screens/loginScreen.dart';
 import 'package:proximax/screens/registrationScreen.dart';
 import 'package:proximax/screens/taskScreen.dart';
 import "package:firebase_core/firebase_core.dart";
+import 'package:proximax/services/notification.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService().init();
   await Firebase.initializeApp();
   runApp(MyApp());
 }

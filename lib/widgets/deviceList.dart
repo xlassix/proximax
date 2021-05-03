@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:pl_notifications/pl_notifications.dart';
+// import 'package:pl_notifications/pl_notifications.dart';
 import 'package:proximax/services/location.dart';
 import 'package:proximax/services/notification.dart';
 import 'package:proximax/widgets/deviceTile.dart';

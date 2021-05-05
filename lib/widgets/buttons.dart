@@ -6,6 +6,8 @@ class CustomBtn extends StatelessWidget {
   final Color textColor;
   final Color bgColor;
   final Function onPress;
+
+  //set required fields when initializing this class
   CustomBtn(
       {@required this.text,
       this.bgColor,

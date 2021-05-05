@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomBtn extends StatelessWidget {
+  //create custom Buttons with custom colors and style
   final String text;
   final Color textColor;
   final Color bgColor;

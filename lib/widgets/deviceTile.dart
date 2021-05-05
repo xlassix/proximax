@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DeviceTile extends StatelessWidget {
+  //set up required fields in which every device tile must posses
   DeviceTile({@required this.fullName, @required this.proximity,@required this.accuracy});
   final String fullName;
   final String proximity;
@@ -9,6 +10,7 @@ class DeviceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      //color was set to varies based on Proximity/distance between users
       color: double.parse(proximity)==0.0?
       Colors.red: double.parse(proximity)<1.0?
       Colors.yellow:Colors.green,

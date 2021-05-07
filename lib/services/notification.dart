@@ -15,9 +15,10 @@ class NotificationService {
 
   NotificationService._internal();
   Future<void> init() async {
-    // initialise Andriod notification settings
+    // initialise Android notification settings
     final AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('app_icon');
+    // initialise Ios notification settings
     final IOSInitializationSettings initializationSettingsIOS =
         IOSInitializationSettings(
       requestSoundPermission: false,

@@ -25,7 +25,8 @@ class NotificationService {
       requestBadgePermission: false,
       requestAlertPermission: false,
     );
-    
+
+    // initialise Notification Settings
     final InitializationSettings initializationSettings =
         InitializationSettings(
             android: initializationSettingsAndroid,

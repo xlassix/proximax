@@ -25,7 +25,7 @@ class NotificationService {
       requestBadgePermission: false,
       requestAlertPermission: false,
     );
-
+    
     final InitializationSettings initializationSettings =
         InitializationSettings(
             android: initializationSettingsAndroid,
@@ -35,7 +35,7 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: selectNotification);
   }
-
+  //function to handle on notification tap
   Future selectNotification(String payload) async {
     //Handle notification tapped logic here
   }

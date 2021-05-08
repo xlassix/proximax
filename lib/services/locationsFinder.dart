@@ -32,6 +32,7 @@ class LocationFinder {
     }
   }
 
+  //method-> feature: get current location
   Future<Position> getCurrentLocation() async {
     await getPermission();
     Position positionInstance = await Geolocator.getCurrentPosition(

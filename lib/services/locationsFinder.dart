@@ -7,6 +7,7 @@ class LocationFinder {
   double longitude;
 
   void getPermission() async {
+    // initialise notification 
     bool serviceEnabled;
     LocationPermission permission;
 

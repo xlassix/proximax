@@ -12,6 +12,7 @@ class Location {
   double distance;
   double accuracy;
 
+  //initialise required  fields
   Location(
       {@required this.displayName,
       @required this.positionLat,

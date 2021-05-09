@@ -1,5 +1,6 @@
 import 'dart:math';
 
+//convert degrees to rads
 double degreesToRadians(degree) {
   return degree * pi / 180.0;
 }

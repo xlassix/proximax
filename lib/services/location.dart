@@ -38,6 +38,7 @@ class Location {
   }
 
   String getDisplayName() {
+    /* this return a displayname for the notification instance  */
     return displayName;
   }
 }

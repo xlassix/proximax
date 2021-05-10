@@ -84,7 +84,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   void initState() {
     init();
-    // TODO: implement initState
     super.initState();
   }
 

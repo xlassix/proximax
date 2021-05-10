@@ -54,6 +54,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   //   });
   // }
 
+
+  // Error Wigdget for error messages
   Widget errorWidget(String value) {
     String temp = value ?? "";
     temp = temp.toLowerCase().contains("network")

@@ -7,7 +7,6 @@ import 'package:proximax/widgets/buttons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:proximax/widgets/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:pl_notifications/pl_notifications.dart';
 
 
 const colorizeColors = [

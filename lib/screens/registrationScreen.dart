@@ -8,7 +8,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:proximax/widgets/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
+//colors for animation
 const colorizeColors = [
   Colors.purple,
   Colors.blue,
@@ -16,6 +16,7 @@ const colorizeColors = [
   Colors.red,
 ];
 
+//custom Text style
 const colorizeTextStyle = TextStyle(
   fontSize: 20.0,
   fontFamily: 'Horizon',

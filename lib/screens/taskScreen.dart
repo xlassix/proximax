@@ -31,6 +31,7 @@ Timer timer = new Timer.periodic(new Duration(seconds: 5), (timer) {
   print("Print after 5 seconds");
 });
 
+//get user object
 void getUser() async {
   prefs = await SharedPreferences.getInstance();
   try {
@@ -82,7 +83,7 @@ class _TaskScreenState extends State<TaskScreen> {
 
   @override
   void dispose() {
-    //di
+    //dispose timer along with widget
     timer.cancel();
     super.dispose();
   }

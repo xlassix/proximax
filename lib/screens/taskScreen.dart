@@ -82,6 +82,7 @@ class _TaskScreenState extends State<TaskScreen> {
 
   @override
   void dispose() {
+    //di
     timer.cancel();
     super.dispose();
   }

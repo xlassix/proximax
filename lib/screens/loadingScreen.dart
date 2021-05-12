@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:proximax/screens/loginScreen.dart';
 import 'package:proximax/screens/taskScreen.dart';
 import 'package:proximax/services/locationsFinder.dart';
@@ -14,7 +13,6 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> {
   String time;
-
   void getdata(LocationFinder instance) async {
     await instance.getPermission();
     SharedPreferences prefs = await SharedPreferences.getInstance();

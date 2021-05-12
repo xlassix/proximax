@@ -14,7 +14,7 @@ class Loading extends StatefulWidget {
 class _LoadingState extends State<Loading> {
   String time;
 
-  //method: feature get notification permissions 
+  //method: feature get location permissions 
   void getdata(LocationFinder instance) async {
     await instance.getPermission();
     SharedPreferences prefs = await SharedPreferences.getInstance();

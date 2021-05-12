@@ -27,6 +27,7 @@ class _LoadingState extends State<Loading> {
 
   @override
   void initState() {
+    //initialise instance 
     LocationFinder instance = LocationFinder();
     getdata(instance);
     super.initState();

@@ -1,9 +1,11 @@
 import 'dart:math';
 
+//convert degrees to rads
 double degreesToRadians(degree) {
   return degree * pi / 180.0;
 }
 
+// proximity calculator in Meters
 double distanceInmetres(List<double> _from, List<double> _to) {
   double radiusEarthMeters = 6371008.8;
   double lat1 = _from[0];

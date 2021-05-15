@@ -1,10 +1,13 @@
 import 'package:geolocator/geolocator.dart';
 
+//location library and initialisation
+
 class LocationFinder {
   double latitude;
   double longitude;
 
   void getPermission() async {
+    // initialise notification 
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -29,6 +32,7 @@ class LocationFinder {
     }
   }
 
+  //method-> feature: get current location
   Future<Position> getCurrentLocation() async {
     await getPermission();
     Position positionInstance = await Geolocator.getCurrentPosition(

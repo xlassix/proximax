@@ -7,9 +7,8 @@ import 'package:proximax/widgets/buttons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:proximax/widgets/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:pl_notifications/pl_notifications.dart';
 
-
+//colors for animation
 const colorizeColors = [
   Colors.purple,
   Colors.blue,
@@ -17,6 +16,7 @@ const colorizeColors = [
   Colors.red,
 ];
 
+//custom Text style
 const colorizeTextStyle = TextStyle(
   fontSize: 20.0,
   fontFamily: 'Horizon',
@@ -54,6 +54,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   //   });
   // }
 
+
+  // Error Wigdget for error messages
   Widget errorWidget(String value) {
     String temp = value ?? "";
     temp = temp.toLowerCase().contains("network")
@@ -82,7 +84,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   void initState() {
     init();
-    // TODO: implement initState
     super.initState();
   }
 

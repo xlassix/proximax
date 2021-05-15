@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-// import 'package:pl_notifications/pl_notifications.dart';
 import 'package:proximax/services/location.dart';
 import 'package:proximax/services/notification.dart';
 import 'package:proximax/widgets/deviceTile.dart';
@@ -22,7 +21,9 @@ const NotificationDetails platformChannelSpecifics =
 
 class _DeviceListState extends State<DeviceList> {
   List<Location> _violation = [];
-  void create() async {
+
+  //create Notifications function 
+  void createNotification() async {
     print(_violation);
     for(var i = 0; i < _violation.length; i++){
       var element=_violation[i];
@@ -39,7 +40,7 @@ class _DeviceListState extends State<DeviceList> {
 
   @override
   Widget build(BuildContext context) {
-    create();
+    createNotification();
     return Expanded(
       child: ListView(
         children: widget.locationList.where((element) {

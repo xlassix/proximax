@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CustomBtn extends StatelessWidget {
+  //create custom Buttons with custom colors and style
   final String text;
   final Color textColor;
   final Color bgColor;
   final Function onPress;
+
+  //set required fields when initializing this class
   CustomBtn(
       {@required this.text,
       this.bgColor,
@@ -12,6 +15,7 @@ class CustomBtn extends StatelessWidget {
       @required this.textColor});
   @override
   Widget build(BuildContext context) {
+    //construct body 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 20.0),
       child: Material(
